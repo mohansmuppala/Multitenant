@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebApp.Models;
+
 
 namespace WebApp
 {
@@ -18,6 +20,37 @@ namespace WebApp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            using (var context = new MultiTenantContext())
+            {
+
+                var tenants = new List<Tenant>
+                {
+                    new Tenant()
+                    {
+                        Name = "SVCC",
+                        DomainName = "www.siliconvalley-codecamp.com",
+                        Id = 1,
+                        Default = true
+                    },
+                    new Tenant()
+                    {
+                        Name = "ANGU",
+                        DomainName = "www.angularu.com",
+                        Id = 1,
+                        Default = true
+                    },
+                    new Tenant()
+                    {
+                        Name = "CSSC",
+                        DomainName = "www.codestarsummit.com",
+                        Id = 1,
+                        Default = true
+                    }
+                };
+                context.Tenants.AddRange(tenants);
+                context.SaveChanges();
+            }
         }
     }
 }
