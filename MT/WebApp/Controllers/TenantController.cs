@@ -12,32 +12,13 @@ namespace WebApp.Controllers
     {
         public ActionResult Index()
         {
-            var tenants = new List<Tenant>
+            using (var context = new MultiTenantContext())
             {
-                new Tenant()
-                {
-                    Name = "SVCC",
-                    DomainName = "www.siliconvalley-codecamp.com",
-                    Id = 1,
-                    Default = true
-                },
-                new Tenant()
-                {
-                    Name = "ANGU",
-                    DomainName = "www.angularu.com",
-                    Id = 1,
-                    Default = true
-                },
-                new Tenant()
-                {
-                    Name = "CSSC",
-                    DomainName = "www.codestarsummit.com",
-                    Id = 1,
-                    Default = true
-                }
-            };
-            return View(tenants);
+                var tenants = context.Tenants.ToList();
+                return View(tenants);
+            }
+
         }
-        
+
     }
 }
